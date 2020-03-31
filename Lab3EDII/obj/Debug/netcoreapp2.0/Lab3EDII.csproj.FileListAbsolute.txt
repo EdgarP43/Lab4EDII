@@ -1,0 +1,3 @@
+C:\Users\Edgar\Desktop\Lab3EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.csproj.CoreCompileInputs.cache
+C:\Users\Edgar\Desktop\Lab3EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.AssemblyInfoInputs.cache
+C:\Users\Edgar\Desktop\Lab3EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.AssemblyInfo.cs
