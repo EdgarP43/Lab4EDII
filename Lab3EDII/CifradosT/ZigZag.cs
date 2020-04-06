@@ -1,195 +1,144 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.IO;
-using System.Threading.Tasks;
+using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Lab3EDII.CifradosT
 {
     public class ZigZag
     {
-        public List<char> cifrado(List<char> Caracteres, int Clave)
+        public byte[] EncryptionZigZag(byte[] TextoOriginal, int CantidadNiveles)
         {
-            List<char> MensajeCifrado = new List<char>();
-            int recorrido = Clave - 2;
-            recorrido = Clave + recorrido;
-            int CuentaDeVueltas = Clave - 2;
-            int CaractereAagregar = 1;
-            int recorridoDos = 2;
-
-            if (Clave == 1)
+            if (CantidadNiveles <= 1)
             {
-                return Caracteres;
+                return TextoOriginal;
             }
-            while (CaractereAagregar < Caracteres.Count)
+            var MatrizCifrado = new byte[CantidadNiveles, TextoOriginal.Length];
+            for (int i = 0; i < CantidadNiveles; i++)
             {
-                CaractereAagregar += recorrido;
-            }
-
-            if (CaractereAagregar != Caracteres.Count)
-            {
-                int CaracterAgregado = CaractereAagregar - Caracteres.Count;
-                for (int i = 0; i < CaracterAgregado; i++)
+                for (int j = 0; j < TextoOriginal.Length; j++)
                 {
-                    Caracteres.Add('*');
+                    MatrizCifrado[i, j] = 0;
                 }
             }
-            for (int i = 0; i < Caracteres.Count; i += recorrido)
+
+            var RecoridoBaja = false; var Fila = 0; var Columna = 0;
+            for (int i = 0; i < TextoOriginal.Length; i++)
             {
-                if (i > Caracteres.Count)
+                if (Fila == 0 || Fila == CantidadNiveles - 1)
                 {
-                    break;
+                    RecoridoBaja = !RecoridoBaja;
                 }
-                MensajeCifrado.Add(Caracteres[i]);
-            }
-            int indice = 1;
-            recorrido -= 2;
-            int j = 0;
-            while (CuentaDeVueltas > 0)
-            {
-                MensajeCifrado.Add(Caracteres[indice]);
-                j = indice;
-                while (j < Caracteres.Count)
+                MatrizCifrado[Fila, Columna++] = TextoOriginal[i];
+                if (RecoridoBaja)
                 {
-                    if (j + recorrido >= Caracteres.Count)
+                    Fila++;
+                }
+                else
+                {
+                    Fila--;
+                }
+            }
+
+            var TextoEncriptado = new byte[TextoOriginal.Length];
+            var h = 0;
+            for (int i = 0; i < CantidadNiveles; i++)
+            {
+                for (int j = 0; j < TextoOriginal.Length; j++)
+                {
+                    if (MatrizCifrado[i, j] != 0)
                     {
-                        break;
+                        TextoEncriptado[h] = MatrizCifrado[i, j];
+                        h++;
                     }
-                    j += recorrido;
-                    MensajeCifrado.Add(Caracteres[j]);
-                    if (j + recorridoDos >= Caracteres.Count)
-                    {
-                        break;
-                    }
-                    j += recorridoDos;
-                    MensajeCifrado.Add(Caracteres[j]);
-
                 }
-                CuentaDeVueltas--;
-                recorrido -= 2;
-                recorridoDos += 2;
-                indice++;
-
-
             }
-            recorrido = Clave - 2;
-            recorrido = Clave + recorrido;
-            for (int h = Clave - 1; h < Caracteres.Count; h += recorrido)
-            {
-                if (h > Caracteres.Count)
-                {
-                    break;
-                }
-                MensajeCifrado.Add(Caracteres[h]);
-            }
-            return MensajeCifrado;
-
+            return TextoEncriptado;
         }
 
-        public List<char> Descifrar(List<char> TextoCifrado, int Clave)
+
+        public byte[] DecryptZigZag(byte[] TextoEncriptado, int CantidadNiveles)
         {
-            List<char> TextoDescrifrado = new List<char>();
-            Queue<char> CaracteresDeBajada = new Queue<char>();
-            Queue<char> CaracteresDeSubida = new Queue<char>();
-            int recorrido = (Clave - 2) + Clave;
-            int CaractereAagregar = 1;
-
-
-            if (Clave == 1) { return TextoCifrado; }
-            while (CaractereAagregar < TextoCifrado.Count)
+            if (CantidadNiveles <= 1)
             {
-                CaractereAagregar += recorrido;
+                return TextoEncriptado;
             }
 
-            if (CaractereAagregar != TextoCifrado.Count)
+            var MatrizCifrada = new byte[CantidadNiveles, TextoEncriptado.Length];
+            for (int i = 0; i < CantidadNiveles; i++)
             {
-                int CaracterAgregado = CaractereAagregar - TextoCifrado.Count;
-                for (int i = 0; i < CaracterAgregado; i++)
+                for (int j = 0; j < TextoEncriptado.Length; j++)
                 {
-                    TextoCifrado.Add('*');
+                    MatrizCifrada[i, j] = 0;
                 }
             }
 
-            int m = (TextoCifrado.Count + (-1 * (-1 - ((Clave - 2) * (2))))) / (((Clave - 2) * 2) + 2);
-            int intermedios = (m - 1) * 2;
-            int subidas = m;
-            int ContarIteraciones = 0;
-            int CIntermedios = 0;
-            int auxiliar;
-            int intervalos = 2;
-
-
-            while (ContarIteraciones < m - 1)
+            var HaciaAbajo = false;
+            var Fila = 0; var Columna = 0;
+            for (int i = 0; i < TextoEncriptado.Length; i++)
             {
-                auxiliar = subidas;
-                CaracteresDeBajada.Enqueue(TextoCifrado[ContarIteraciones]);
-                CaracteresDeBajada.Enqueue(TextoCifrado[subidas]);
-                while (CIntermedios < Clave - 3)
+                if (Fila == 0)
                 {
-                    auxiliar += intermedios;
-                    CaracteresDeBajada.Enqueue(TextoCifrado[auxiliar]);
-
-                    CIntermedios++;
+                    HaciaAbajo = true;
                 }
-                intervalos = CIntermedios;
-                ContarIteraciones++;
-                subidas += 2;
-                CIntermedios = 0;
-
-
-            }
-            CaracteresDeBajada.Enqueue(TextoCifrado[m - 1]);
-
-            ContarIteraciones = 0;
-            int Inicio = TextoCifrado.Count - (m - 1);
-
-            int SegundaCadena = (Inicio - intermedios) + 1;
-            int IntermediosDeSubida = 0;
-            CIntermedios = 0;
-            while (ContarIteraciones < m - 1)
-            {
-                CaracteresDeSubida.Enqueue(TextoCifrado[Inicio]);
-                CaracteresDeSubida.Enqueue(TextoCifrado[SegundaCadena]);
-                IntermediosDeSubida = SegundaCadena;
-                while (CIntermedios < Clave - 3)
+                if (Fila == CantidadNiveles - 1)
                 {
-                    IntermediosDeSubida -= intermedios;
-                    CaracteresDeSubida.Enqueue(TextoCifrado[IntermediosDeSubida]);
-
-                    CIntermedios++;
+                    HaciaAbajo = false;
                 }
-                ContarIteraciones++;
-                Inicio++;
-                SegundaCadena += 2;
-                CIntermedios = 0;
-            }
-            ContarIteraciones = 0;
-            intervalos += 2;
-
-            while (ContarIteraciones < m - 1)
-            {
-                for (int i = 0; i < intervalos; i++)
+                MatrizCifrada[Fila, Columna++] = 1;
+                if (HaciaAbajo)
                 {
-                    TextoDescrifrado.Add(CaracteresDeBajada.Dequeue());
+                    Fila++;
                 }
-                for (int i = 0; i < intervalos; i++)
+                else
                 {
-                    TextoDescrifrado.Add(CaracteresDeSubida.Dequeue());
-                }
-                ContarIteraciones++;
-
-            }
-
-            List<char> listaRetorno = new List<char>();
-            foreach (var item in TextoDescrifrado)
-            {
-                if (item != '*')
-                {
-                    listaRetorno.Add(item);
+                    Fila--;
                 }
             }
 
-            return listaRetorno;
+            var PosicionActual = 0;
+            for (int i = 0; i < CantidadNiveles; i++)
+            {
+                for (int j = 0; j < TextoEncriptado.Length; j++)
+                {
+                    if (MatrizCifrada[i, j] == 1 && PosicionActual < TextoEncriptado.Length)
+                    {
+                        MatrizCifrada[i, j] = TextoEncriptado[PosicionActual++];
+                    }
+                }
+            }
+
+            var TextoDescifrado = new byte[TextoEncriptado.Length];
+            var h = 0;
+            Fila = 0; Columna = 0;
+            for (int i = 0; i < TextoEncriptado.Length; i++)
+            {
+                if (Fila == 0)
+                {
+                    HaciaAbajo = true;
+                }
+                if (Fila == CantidadNiveles - 1)
+                {
+                    HaciaAbajo = false;
+                }
+                if (MatrizCifrada[Fila, Columna] != 1)
+                {
+                    TextoDescifrado[h] = (MatrizCifrada[Fila, Columna++]);
+                    h++;
+                }
+                if (HaciaAbajo)
+                {
+                    Fila++;
+                }
+                else
+                {
+                    Fila--;
+                }
+            }
+            return TextoDescifrado;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Lab3EDII.CifradosT
             {
                 using (var reader = new BinaryReader(stream))
                 {
-                    using (var writeStream = new FileStream($"{ubicacionAAlmacenar}/{nombreArchivo[0]}.cif", FileMode.OpenOrCreate))
+                    using (var writeStream = new FileStream(ubicacionAAlmacenar+nombreArchivo[0]+".espiral", FileMode.OpenOrCreate))
                     {
                         using (var writer = new BinaryWriter(writeStream))
                         {
@@ -103,12 +103,12 @@ namespace Lab3EDII.CifradosT
             {
                 using (var reader = new BinaryReader(stream))
                 {
-                    using (var writeStream = new FileStream($"{ubicacionAAlmacenar}/{nombreArchivo[0]}.txt", FileMode.OpenOrCreate))
+                    using (var writeStream = new FileStream($"{ubicacionAAlmacenar}/{nombreArchivo[0]}.espiral", FileMode.OpenOrCreate))
                     {
                         using (var writer = new BinaryWriter(writeStream))
                         {
                             var cantBytesTotal = Convert.ToDouble(reader.BaseStream.Length);
-                            var filas = Math.Ceiling(cantBytesTotal / Convert.ToDouble(columnas));
+                            var filas = Math.Floor(cantBytesTotal / Convert.ToDouble(columnas));
 
                             var matrizCifrado = new byte[Convert.ToInt32(filas), columnas];
 
