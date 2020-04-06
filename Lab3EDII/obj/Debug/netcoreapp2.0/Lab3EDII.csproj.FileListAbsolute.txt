@@ -1,0 +1,14 @@
+C:\Users\Edgar\Desktop\Lab3EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.csproj.CoreCompileInputs.cache
+C:\Users\Edgar\Desktop\Lab3EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.AssemblyInfoInputs.cache
+C:\Users\Edgar\Desktop\Lab3EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.AssemblyInfo.cs
+D:\Escritorio\Lab4EDII\Lab3EDII\bin\Debug\netcoreapp2.0\Lab3EDII.deps.json
+D:\Escritorio\Lab4EDII\Lab3EDII\bin\Debug\netcoreapp2.0\Lab3EDII.runtimeconfig.json
+D:\Escritorio\Lab4EDII\Lab3EDII\bin\Debug\netcoreapp2.0\Lab3EDII.runtimeconfig.dev.json
+D:\Escritorio\Lab4EDII\Lab3EDII\bin\Debug\netcoreapp2.0\Lab3EDII.dll
+D:\Escritorio\Lab4EDII\Lab3EDII\bin\Debug\netcoreapp2.0\Lab3EDII.pdb
+D:\Escritorio\Lab4EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.csprojAssemblyReference.cache
+D:\Escritorio\Lab4EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.csproj.CoreCompileInputs.cache
+D:\Escritorio\Lab4EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.AssemblyInfoInputs.cache
+D:\Escritorio\Lab4EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.AssemblyInfo.cs
+D:\Escritorio\Lab4EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.dll
+D:\Escritorio\Lab4EDII\Lab3EDII\obj\Debug\netcoreapp2.0\Lab3EDII.pdb
